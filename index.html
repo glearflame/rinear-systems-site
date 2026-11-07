@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cardápio Digital para Restaurante | Pedidos pelo WhatsApp | Rinear Systems</title>
+<meta name="description" content="Cardápio digital com QR Code, pedidos pelo WhatsApp e presença no Google para restaurantes, hamburguerias, pizzarias, marmitarias e food trucks. Solicite uma demonstração gratuita.">
+<meta name="keywords" content="cardápio digital para restaurante, pedidos pelo WhatsApp, QR Code para restaurante, criação de site para restaurante, cardápio digital hamburgueria, cardápio digital pizzaria">
+<meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:italic@400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta property="og:title" content="Cardápio Digital para Restaurante | Rinear Systems">
+<meta property="og:description" content="Cardápio digital com QR Code, pedidos pelo WhatsApp e presença no Google para restaurantes no Brasil.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rinear-systems-site.glear-games-mk.workers.dev/">
+<meta property="og:image" content="https://rinear-systems-site.glear-games-mk.workers.dev/og-image.jpg">
+<meta property="og:site_name" content="Rinear Systems">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cardápio Digital para Restaurante | Rinear Systems">
+<meta name="twitter:description" content="Cardápio digital com QR Code, pedidos pelo WhatsApp e presença no Google para restaurantes no Brasil.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23071d22'/%3E%3Ctext x='50' y='65' font-family='serif' font-size='55' fill='%23ff5ba8' text-anchor='middle'%3ER*S%3C/text%3E%3C/svg%3E">
+<style>
+  /* ============ VARIÁVEIS E RESET ============ */
+  :root{
+    --bg:#071d22;
+    --bg-sec:#0a272d;
+    --ink:#eef3f0;
+    --muted:#94a7a7;
+    --accent:#ff5ba8;
+    --accent2:#8b5cff;
+    --gold:#e6c866;
+    --border:rgba(255,255,255,.13);
+    --radius:12px;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+    --font-display:'DM Serif Display',serif;
+    --font-ui:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-ui);
+    line-height:1.6;
+    font-size:16px;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .container{max-width:1080px;margin:0 auto;padding:0 20px}
+  .section{padding:70px 0}
+  .section-head{text-align:center;margin-bottom:50px}
+  .section-head .kicker{
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(255,91,168,.12);color:var(--accent);
+    font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    padding:6px 14px;border-radius:999px;border:1px solid rgba(255,91,168,.35);
+    margin-bottom:14px
+  }
+  .section-head h2{
+    font-family:var(--font-display);font-size:clamp(30px,5vw,46px);
+    font-weight:400;line-height:1.15;letter-spacing:-.02em
+  }
+  .section-head p{color:var(--muted);font-size:15px;margin-top:12px;max-width:620px;margin-left:auto;margin-right:auto}
+  /* ============ NAV ============ */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:1000;
+    background:rgba(7,29,34,.7);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border)
+  }
+  nav .container{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{font-family:var(--font-display);font-size:22px;font-weight:400;color:var(--ink);letter-spacing:-.03em;display:flex;align-items:center;gap:8px}
+  .logo span{color:var(--accent);font-style:italic}
+  .nav-links{display:flex;align-items:center;gap:26px}
+  .nav-links a{font-size:14px;font-weight:500;color:var(--muted);transition:color .2s}
+  .nav-links a:hover,.nav-links a:focus{color:var(--ink)}
+  .btn-wa-nav{
+    font-size:14px;font-weight:700;color:#fff;background:var(--accent);
+    padding:9px 16px;border-radius:10px;transition:transform .2s,background .2s;border:none;cursor:pointer
+  }
+  .btn-wa-nav:hover{background:#e04e9a;transform:translateY(-1px)}
+  .menu-btn{display:none;background:none;border:none;color:var(--ink);font-size:24px;cursor:pointer}
+  /* ============ HERO ============ */
+  .hero{position:relative;padding:110px 0 90px;overflow:hidden}
+  .hero::before{
+    content:"";position:absolute;top:-20%;right:-15%;width:520px;height:520px;
+    background:radial-gradient(circle,rgba(255,91,168,.18),transparent 60%);
+    border-radius:50%;z-index:0;pointer-events:none
+  }
+  .hero .container{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+  .hero h1{
+    font-family:var(--font-display);font-size:clamp(26px,7vw,56px);
+    line-height:1.1;letter-spacing:-.03em;margin-bottom:20px
+  }
+  .hero p.sub{
+    font-size:clamp(15px,2.2vw,18px);color:var(--muted);margin-bottom:30px;
+    line-height:1.6;max-width:520px
+  }
+  .hero-ctas{display:flex;flex-direction:column;gap:14px}
+  .btn-primary{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:#fff;font-size:17px;font-weight:700;padding:16px 24px;border-radius:12px;
+    border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;text-decoration:none;
+    box-shadow:0 8px 24px rgba(255,91,168,.35)
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,91,168,.5)}
+  .btn-secondary{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    background:transparent;color:var(--ink);font-size:16px;font-weight:600;
+    padding:14px 24px;border:1px solid var(--border);border-radius:12px;cursor:pointer;
+    transition:background .2s,border-color .2s,color .2s;text-decoration:none
+  }
+  .btn-secondary:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.35)}
+  .hero-mock{position:relative;height:460px;display:flex;align-items:center;justify-content:center}
+  .phone{
+    width:100%;max-width:310px;background:#000;border-radius:34px;
+    border:8px solid #111;box-shadow:var(--shadow);position:relative;overflow:hidden
+  }
+  .phone-screen{
+    width:100%;height:100%;background:#fff;color:#111;border-radius:26px;
+    overflow:hidden;position:relative;padding-bottom:20px
+  }
+  .phone-header{
+    padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ddd
+  }
+  .phone-logo{font-family:var(--font-display);font-size:15px;color:#111}
+  .phone-menu{width:6px;height:6px;background:#111;border-radius:50%;box-shadow:12px 0 0 #111,24px 0 0 #111}
+  .phone-hero{padding:24px 16px 10px;text-align:center}
+  .phone-hero h3{font-size:17px;margin-bottom:6px}
+  .phone-hero p{font-size:12px;color:#666;margin-bottom:14px}
+  .phone-menu-items{display:flex;flex-direction:column;gap:10px;padding:0 16px 14px}
+  .phone-item{
+    display:flex;align-items:center;gap:10px;padding:10px;border:1px solid #eee;border-radius:10px;background:#fafafa
+  }
+  .phone-item img{width:44px;height:44px;border-radius:8px;object-fit:cover}
+  .phone-item div{flex:1}
+  .phone-item strong{font-size:13px;display:block}
+  .phone-item span{font-size:11px;color:#666}
+  .phone-item .price{font-weight:700;color:#111}
+  .phone-cta{
+    position:absolute;bottom:0;left:0;right:0;padding:14px 16px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    display:flex;align-items:center;justify-content:center;gap:8px
+  }
+  .phone-cta button{
+    flex:1;background:#fff;color:#111;border:none;padding:10px 14px;border-radius:10px;
+    font-weight:700;font-size:13px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.15)
+  }
+  .badge-whatsapp{
+    position:absolute;top:-10px;left:50%;transform:translateX(-50%);
+    background:var(--accent);color:#fff;font-size:11px;font-weight:700;
+    padding:4px 10px;border-radius:999px;border:2px solid #fff
+  }
+  /* ============ PROBLEMA ============ */
+  .problema{background:var(--bg-sec)}
+  .cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px}
+  .card{
+    background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+    padding:26px;transition:transform .2s,border-color .2s;position:relative;overflow:hidden
+  }
+  .card:hover{transform:translateY(-4px);border-color:rgba(255,91,168,.45)}
+  .card::before{
+    content:"";position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,var(--accent),var(--accent2))
+  }
+  .card h3{font-size:17px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .card p{font-size:14px;color:var(--muted);line-height:1.55}
+  .card .num{
+    position:absolute;top:16px;right:18px;font-family:var(--font-display);font-size:14px;color:rgba(255,255,255,.12)
+  }
+  /* ============ SOLUCAO ============ */
+  .solucao-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
+  .sol-item{
+    background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--radius);
+    padding:20px;text-align:center
+  }
+  .sol-item .ico{width:44px;height:44px;border-radius:10px;background:rgba(255,91,168,.15);color:var(--accent);
+    display:grid;place-items:center;font-size:20px;margin:0 auto 14px;border:1px solid rgba(255,91,168,.35)}
+  .sol-item h4{font-size:15px;margin-bottom:6px}
+  .sol-item p{font-size:13px;color:var(--muted);line-height:1.5}
+  /* ============ COMO FUNCIONA ============ */
+  .etapas{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:26px}
+  .etapa{position:relative;padding-left:44px}
+  .etapa .n{
+    position:absolute;left:0;top:2px;font-family:var(--font-display);font-size:26px;
+    color:var(--accent);font-style:italic
+  }
+  .etapa h4{font-size:16px;margin-bottom:8px}
+  .etapa p{font-size:14px;color:var(--muted);line-height:1.55}
+  .etapa::after{
+    content:"";position:absolute;left:6px;top:46px;bottom:-8px;width:2px;background:var(--border)
+  }
+  .etapa:last-child::after{display:none}
+  /* ============ DEMONSTRACAO ============ */
+  .demo{background:var(--bg-sec)}
+  .demo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+  .demo-card{
+    background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+    overflow:hidden;display:flex;flex-direction:column
+  }
+  .demo-img{height:190px;background:#111;overflow:hidden;position:relative}
+  .demo-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+  .demo-card:hover .demo-img img{transform:scale(1.05)}
+  .demo-tag{position:absolute;top:12px;left:12px;background:rgba(0,0,0,.7);color:#fff;
+    font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;letter-spacing:.08em;text-transform:uppercase}
+  .demo-body{padding:20px;flex:1;display:flex;flex-direction:column}
+  .demo-body h4{font-size:17px;margin-bottom:6px}
+  .demo-body p{font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.5;flex:1}
+  .demo-ctas{display:flex;flex-direction:column;gap:10px}
+  .demo-ctas .btn{font-size:14px;font-weight:700;padding:10px 14px;border-radius:10px;text-align:center;
+    transition:transform .2s;cursor:pointer;border:none}
+  .demo-ctas .btn.menu{background:var(--border);color:var(--ink)}
+  .demo-ctas .btn.menu:hover{background:rgba(255,255,255,.25)}
+  .demo-ctas .btn.wa{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
+  .demo-ctas .btn.wa:hover{transform:translateY(-1px)}
+  .demo-note{
+    margin-top:30px;text-align:center;color:var(--muted);font-size:13px;
+    border-top:1px solid var(--border);padding-top:22px
+  }
+  /* ============ PROVA ============ */
+  .prova-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;text-align:center}
+  .prova-item{padding:18px}
+  .prova-item .num{font-family:var(--font-display);font-size:20px;color:var(--gold);margin-bottom:8px;display:block}
+  .prova-item p{font-size:13px;color:var(--muted);line-height:1.5}
+  .placeholders{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:50px}
+  .placeholder{
+    border:1px dashed var(--border);border-radius:var(--radius);padding:28px 20px;
+    text-align:center;color:var(--muted);background:rgba(255,255,255,.02)
+  }
+  .placeholder h4{font-size:15px;margin-bottom:8px;color:var(--ink)}
+  .placeholder p{font-size:13px;line-height:1.5}
+  /* ============ FAQ ============ */
+  .faq-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+  .faq-item{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+  .faq-q{
+    background:var(--bg-sec);padding:16px 20px;font-weight:600;font-size:15px;cursor:pointer;
+    display:flex;justify-content:space-between;align-items:center;transition:background .2s
+  }
+  .faq-q:hover{background:rgba(10,39,45,.6)}
+  .faq-a{padding:0 20px;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;background:var(--bg)}
+  .faq-a.open{max-height:400px;padding:18px 20px 22px}
+  .faq-a p{font-size:14px;color:var(--muted);line-height:1.6}
+  .faq-q .chev{width:10px;height:10px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .3s}
+  .faq-q.open .chev{transform:rotate(-135deg)}
+  /* ============ CTA FINAL ============ */
+  .cta-final{
+    background:linear-gradient(135deg,var(--bg-sec),var(--bg));
+    border:1px solid var(--border);border-radius:var(--radius);padding:44px 30px;
+    text-align:center;position:relative;overflow:hidden
+  }
+  .cta-final::before{
+    content:"";position:absolute;top:-40%;right:-20%;width:400px;height:400px;
+    background:radial-gradient(circle,rgba(255,91,168,.14),transparent 55%);border-radius:50%;pointer-events:none
+  }
+  .cta-final h3{font-family:var(--font-display);font-size:clamp(22px,5vw,32px);margin-bottom:10px}
+  .cta-final p{color:var(--muted);font-size:15px;margin-bottom:26px;max-width:520px;margin-left:auto;margin-right:auto}
+  /* ============ RODAPE ============ */
+  footer{border-top:1px solid var(--border);padding:46px 0 30px;color:var(--muted);font-size:13px}
+  footer .container{display:grid;grid-template-columns:2fr 1fr 1fr;gap:30px}
+  footer .foot-brand{font-family:var(--font-display);font-size:20px;color:var(--ink);margin-bottom:12px}
+  footer .foot-brand span{color:var(--accent);font-style:italic}
+  footer .foot-serv{margin-bottom:10px;font-size:14px;line-height:1.7}
+  footer .foot-contato div{margin-bottom:8px;display:flex;align-items:center;gap:10px}
+  footer .foot-contato a{color:var(--ink);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;transition:color .2s}
+  footer .foot-contato a:hover{color:var(--accent)}
+  footer .foot-legal{grid-column:1/-1;border-top:1px solid var(--border);margin-top:30px;padding-top:20px;font-size:11.5px;color:var(--muted)}
+  /* ============ UTILS ============ */
+  .hidden{display:none!important}
+  .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+  /* ============ MOBILE MENU ============ */
+  .mobile-menu{position:fixed;inset:0;background:var(--bg);z-index:1100;display:flex;flex-direction:column;padding:24px;transform:translateX(100%);transition:transform .35s ease}
+  .mobile-menu.open{transform:translateX(0)}
+  .mobile-menu .close{background:none;border:none;color:var(--ink);font-size:26px;align-self:flex-end;margin-bottom:20px;cursor:pointer}
+  .mobile-menu a{display:block;padding:14px 0;font-size:18px;font-weight:600;color:var(--ink);border-bottom:1px solid var(--border)}
+  .mobile-menu .btn-wa{margin-top:24px}
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1050;opacity:0;pointer-events:none;transition:opacity .3s}
+  .overlay.visible{opacity:1;pointer-events:auto}
+  /* ============ RESPONSIVO ============ */
+  @media (max-width:768px){
+    .nav-links{display:none}
+    .menu-btn{display:block}
+    .hero .container{grid-template-columns:1fr}
+    .hero-mock{order:-1}
+    .phone{max-width:290px}
+    .section{padding:50px 0}
+    footer .container{grid-template-columns:1fr}
+  }
+  @media (max-width:480px){
+    .hero-mock{height:380px}
+    .cta-final{padding:32px 20px}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav aria-label="Navegação principal">
+  <div class="container">
+    <a href="#" class="logo" aria-label="Rinear Systems">R<span>*</span>S</a>
+    <div class="nav-links">
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#demonstracao">Exemplos</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://wa.me/5534991297581?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Rinear%20Systems%20e%20gostaria%20de%20saber%20mais%20sobre%20o%20card%C3%A1pio%20digital%20para%20meu%20restaurante." class="btn-wa-nav" target="_blank" rel="noopener">Falar no WhatsApp</a>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Abrir menu">☰</button>
+  </div>
+</nav>
+
+<div class="overlay" id="overlay"></div>
+<div class="mobile-menu" id="mobileMenu" role="navigation" aria-label="Menu mobile">
+  <button class="close" id="closeMenu" aria-label="Fechar menu">✕</button>
+  <a href="#como-funciona">Como funciona</a>
+  <a href="#demonstracao">Exemplos de cardápio</a>
+  <a href="#faq">Perguntas frequentes</a>
+  <a href="https://wa.me/5534991297581?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Rinear%20Systems%20e%20gostaria%20de%20solicitar%20uma%20demonstra%C3%A7%C3%A3o%20gratuita%20do%20card%C3%A1pio%20digital." class="btn-wa" target="_blank" rel="noopener">Falar no WhatsApp</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="inicio" aria-label="Hero">
+  <div class="container">
+    <div class="hero-mock" aria-hidden="true">
+      <div class="badge-whatsapp">Pedir pelo WhatsApp</div>
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="phone-header">
+            <div class="phone-logo">Burguer<span style="color:#ff5ba8">Da</span>Rua</div>
+            <div class="phone-menu"></div>
+          </div>
+          <div class="phone-hero">
+            <h3>Cardápio Digital</h3>
+            <p>Hamburgueria Da Rua • Delivery e retirada</p>
+          </div>
+          <div class="phone-menu-items">
+            <div class="phone-item">
+              <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200&h=200&fit=crop" alt="X-Bacon">
+              <div><strong>X-Bacon</strong><span>Bacon, queijo e molho especial</span></div><span class="price">R$ 24,90</span>
+            </div>
+            <div class="phone-item">
+              <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=200&h=200&fit=crop" alt="Batata">
+              <div><strong>Batata Frita</strong><span>Porção com cheiro-verde</span></div><span class="price">R$ 12,90</span>
+            </div>
+            <div class="phone-item">
+              <img src="https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=200&h=200&fit=crop" alt="Refrigerante">
+              <div><strong>Refrigerante Lata</strong><span>350ml</span></div><span class="price">R$ 5,00</span>
+            </div>
+          </div>
+          <div class="phone-cta">
+            <button onclick="abrirWhatsAppPedido()">Fazer pedido pelo WhatsApp</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h1>Seu restaurante com cardápio digital, pedidos organizados no WhatsApp e mais presença no Google.</h1>
+      <p class="sub">Crie uma experiência profissional para seus clientes: cardápio com QR Code, pedidos pelo WhatsApp, fotos, horários, delivery e Google atualizado.</p>
+      <div class="hero-ctas">
+        <a href="https://wa.me/5534991297581?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Rinear%20Systems%20e%20gostaria%20de%20solicitar%20uma%20demonstra%C3%A7%C3%A3o%20gratuita%20do%20card%C3%A1pio%20digital%20para%20meu%20restaurante." class="btn-primary" target="_blank" rel="noopener">Quero uma demonstração gratuita</a>
+        <a href="#demonstracao" class="btn-secondary">Ver exemplo de cardápio</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMA -->
+<section class="problema section" id="problema" aria-label="Seu restaurante está perdendo pedidos">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">O problema do seu restaurante</span>
+      <h2>Seu restaurante está perdendo pedidos?</h2>
+      <p>Donos de restaurante têm ótima comida, mas perdem vendas porque o cliente não encontra o que precisa — rápido e fácil.</p>
+    </div>
+    <div class="cards-grid">
+      <article class="card"><span class="num">01</span>
+        <h3><span>📄</span>Cardápio difícil de atualizar</h3>
+        <p>PDF ou foto no WhatsApp que fica desatualizado. Preço errado, item esgotado, cliente reclama.</p>
+      </article>
+      <article class="card"><span class="num">02</span>
+        <h3><span>💬</span>Pedidos confusos no WhatsApp</h3>
+        <p>Mensagens soltas, sem observações, sem endereço de entrega. Você perde tempo conferindo tudo.</p>
+      </article>
+      <article class="card"><span class="num">03</span>
+        <h3><span>📍</span>Informações difíceis de encontrar</h3>
+        <p>Horário, endereço, formas de pagamento e menu espalhados. O cliente desiste antes de pedir.</p>
+      </article>
+      <article class="card"><span class="num">04</span>
+        <h3><span>📱</span>Instagram com muitos seguidores, poucos pedidos</h3>
+        <p>Seguidores curtem as fotos, mas não conseguem fazer o pedido direto. Não vira venda.</p>
+      </article>
+      <article class="card"><span class="num">05</span>
+        <h3><span>🔍</span>Falta de presença no Google Maps</h3>
+        <p>Quem pesquisa “hamburgueria perto de mim” não encontra seu restaurante. Concorrência leva o cliente.</p>
+      </article>
+      <article class="card"><span class="num">06</span>
+        <h3><span>🚚</span>Dependência total de delivery</h3>
+        <p>Aplicativos cobram comissões altas e você não tem controle da relação com o cliente.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUCAO -->
+<section class="section" id="solucao" aria-label="Solução da Rinear Systems">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Solução para restaurantes</span>
+      <h2>Tudo o que seu restaurante precisa para vender mais</h2>
+      <p>Ferramentas simples, sem complicação técnica, feitas para quem trabalha no dia a dia do salão ou da cozinha.</p>
+    </div>
+    <div class="solucao-grid">
+      <div class="sol-item"><div class="ico">📱</div>
+        <h4>Cardápio digital com QR Code</h4>
+        <p>Seu menu online, atualizado em tempo real. O cliente escaneia a mesa ou o balcão e vê tudo no celular.</p>
+      </div>
+      <div class="sol-item"><div class="ico">💬</div>
+        <h4>Link de pedido pelo WhatsApp</h4>
+        <p>O cliente monta o pedido e envia direto para o seu WhatsApp Business, já formatado e completo.</p>
+      </div>
+      <div class="sol-item"><div class="ico">🌐</div>
+        <h4>Página profissional do restaurante</h4>
+        <p>Página própria com logo, fotos, horários, endereço, Instagram e WhatsApp. Seu restaurante sempre aberto.</p>
+      </div>
+      <div class="sol-item"><div class="ico">🔍</div>
+        <h4>Google Perfil da Empresa atualizado</h4>
+        <p>Otimizamos seu perfil para quem pesquisa “restaurante perto de mim” encontrar você primeiro.</p>
+      </div>
+      <div class="sol-item"><div class="ico">🤖</div>
+        <h4>Mensagem automática no WhatsApp</h4>
+        <p>Boas-vindas, horário, cardápio e confirmação de pedido enviadas automaticamente.</p>
+      </div>
+      <div class="sol-item"><div class="ico">📚</div>
+        <h4>Treinamento simples</h4>
+        <p>Você aprende a mudar preços e itens sozinho, quando precisar, sem depender de programador.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section class="section" id="como-funciona" aria-label="Como funciona">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Nosso processo</span>
+      <h2>Do primeiro contato à entrega do cardápio</h2>
+      <p>Quatro etapas simples, sem burocracia, pensadas para a rotina do seu restaurante.</p>
+    </div>
+    <div class="etapas">
+      <div class="etapa"><span class="n">1</span>
+        <h4>Conversa rápida pelo WhatsApp</h4>
+        <p>Você nos conta como seu restaurante funciona e o que precisa.</p>
+      </div>
+      <div class="etapa"><span class="n">2</span>
+        <h4>Análise do seu Instagram, Google e WhatsApp</h4>
+        <p>Revisamos o que já existe e onde estão as oportunidades de atrair mais clientes.</p>
+      </div>
+      <div class="etapa"><span class="n">3</span>
+        <h4>Criação do cardápio digital e página</h4>
+        <p>Montamos seu menu com fotos, preços, categorias e a página pública do restaurante.</p>
+      </div>
+      <div class="etapa"><span class="n">4</span>
+        <h4>Entrega com QR Codes, link e treinamento</h4>
+        <p>Você recebe o QR Code para imprimir, o link para divulgar e aprende a atualizar sozinho.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMONSTRACAO -->
+<section class="demo section" id="demonstracao" aria-label="Exemplos de cardápio digital">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Exemplos demonstrativos</span>
+      <h2>Veja como ficaria o cardápio do seu negócio</h2>
+      <p>Exemplos fictícios criados apenas para demonstração. Não são clientes reais da Rinear Systems.</p>
+    </div>
+    <div class="demo-grid">
+      <article class="demo-card">
+        <div class="demo-img"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&h=400&fit=crop" alt="Hambúrguer artesanal"><div class="demo-tag">Hamburgueria</div></div>
+        <div class="demo-body">
+          <h4>Burguer Da Rua</h4>
+          <p>Cardápio com hambúrgueres, batatas e milkshakes. Categorias navegáveis, preços claros e botão de pedido direto no WhatsApp.</p>
+          <div class="demo-ctas">
+            <button class="btn menu" onclick="abrirWhatsApp('Ver cardápio da Burguer Da Rua')">Ver cardápio</button>
+            <a href="#" class="btn wa" onclick="event.preventDefault();abrirWhatsAppPedido()">Fazer pedido pelo WhatsApp</a>
+          </div>
+        </div>
+      </article>
+      <article class="demo-card">
+        <div class="demo-img"><img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600&h=400&fit=crop" alt="Pizza"><div class="demo-tag">Pizzaria</div></div>
+        <div class="demo-body">
+          <h4>Forno da Vila</h4>
+          <p>Pizzas doces e salgadas, combos família e bebidas. Opções de tamanhos, adicionais e seleção de entrega ou retirada.</p>
+          <div class="demo-ctas">
+            <button class="btn menu" onclick="abrirWhatsApp('Ver cardápio da Forno da Vila')">Ver cardápio</button>
+            <a href="#" class="btn wa" onclick="event.preventDefault();abrirWhatsAppPedido()">Fazer pedido pelo WhatsApp</a>
+          </div>
+        </div>
+      </article>
+      <article class="demo-card">
+        <div class="demo-img"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&h=400&fit=crop" alt="Marmitaria"><div class="demo-tag">Marmitaria</div></div>
+        <div class="demo-body">
+          <h4>Marmitas & Cia</h4>
+          <p>Marmitas fitness e tradicionais por quilo ou unidade. Horário de funcionamento, área de entrega e pagamento no WhatsApp.</p>
+          <div class="demo-ctas">
+            <button class="btn menu" onclick="abrirWhatsApp('Ver cardápio da Marmitas &amp; Cia')">Ver cardápio</button>
+            <a href="#" class="btn wa" onclick="event.preventDefault();abrirWhatsAppPedido()">Fazer pedido pelo WhatsApp</a>
+          </div>
+        </div>
+      </article>
+    </div>
+    <p class="demo-note">Os nomes, fotos e preços acima são exemplos fictícios, criados apenas para ilustrar o serviço da Rinear Systems.</p>
+  </div>
+</section>
+
+<!-- PROVA -->
+<section class="section" id="prova" aria-label="Prova e confiança">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Por que confiar na Rinear Systems</span>
+      <h2>Feito para pequenos e médios restaurantes</h2>
+      <p>Sem jargão técnico, sem letra miúda. Você está no controle do seu cardápio.</p>
+    </div>
+    <div class="prova-grid">
+      <div class="prova-item"><span class="num">💬</span>
+        <p>Atendimento direto pelo WhatsApp, do orçamento à entrega.</p>
+      </div>
+      <div class="prova-item"><span class="num">⚡</span>
+        <p>Entrega rápida do seu cardápio digital e QR Code.</p>
+      </div>
+      <div class="prova-item"><span class="num">🍽️</span>
+        <p>Feito para pequenos e médios restaurantes do Brasil.</p>
+      </div>
+      <div class="prova-item"><span class="num">✏️</span>
+        <p>Você pode atualizar preços e itens sempre que quiser.</p>
+      </div>
+      <div class="prova-item"><span class="num">🛠️</span>
+        <p>Sem complicação técnica. Treinamos você a usar sozinho.</p>
+      </div>
+    </div>
+    <div class="placeholders">
+      <div class="placeholder" aria-label="Depoimentos futuros">
+        <h4>Depoimentos</h4>
+        <p>Espaço reservado para depoimentos de restaurantes atendidos pela Rinear Systems.</p>
+      </div>
+      <div class="placeholder" aria-label="Cases futuros">
+        <h4>Cases</h4>
+        <p>Espaço reservado para cases de entrega de cardápios digitais e páginas de restaurantes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq" aria-label="Perguntas frequentes">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Perguntas frequentes</span>
+      <h2>Tire suas dúvidas</span>
+      <p>Respostas diretas para quem ainda está conhecendo o serviço.</p>
+    </div>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">O cardápio funciona no celular?<span class="chev"></span></div>
+        <div class="faq-a"><p>Sim. O cardápio é 100% responsivo e abre direto no navegador do celular, sem instalar nada.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">O cliente precisa instalar aplicativo?<span class="chev"></span></div>
+        <div class="faq-a"><p>Não. O cliente acessa pelo link ou escaneia o QR Code direto no navegador (Chrome, Safari, etc.).</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Consigo mudar preços e itens depois?<span class="chev"></span></div>
+        <div class="faq-a"><p>Sim. O painel permite editar preços, descrições e disponibilidade a qualquer momento, sem custo de reprogramação.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">O pedido vai direto para o meu WhatsApp?<span class="chev"></span></div>
+        <div class="faq-a"><p>Sim. O pedido é enviado formatado com itens, observações, endereço e total direto para o WhatsApp do seu restaurante.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Vocês criam o QR Code?<span class="chev"></span></div>
+        <div class="faq-a"><p>Sim. Cada restaurante recebe um QR Code exclusivo que leva direto para o seu cardápio digital.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Vocês fazem o Google do restaurante?<span class="chev"></span></div>
+        <div class="faq-a"><p>Sim. Otimizamos o Perfil da Empresa no Google para seu restaurante aparecer em buscas locais.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Quanto tempo leva a entrega?<span class="chev"></span></div>
+        <div class="faq-a"><p>Depende do escopo, mas o cardápio digital costuma ser entregue em poucos dias após a coleta das informações.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Atendem minha cidade?<span class="chev"></span></div>
+        <div class="faq-a"><p>Atendemos restaurantes em todo o Brasil. Todo o atendimento é feito remotamente, por WhatsApp e e-mail.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final" id="cta-final" aria-label="Chamada final">
+  <h3>Quer ver como ficaria o cardápio digital do seu restaurante?</h3>
+  <p>Solicite uma demonstração gratuita e tire suas dúvidas direto pelo WhatsApp.</p>
+  <a href="https://wa.me/5534991297581?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Rinear%20Systems%20e%20gostaria%20de%20pedir%20uma%20demonstra%C3%A7%C3%A3o%20gratuita%20do%20card%C3%A1pio%20digital%20para%20meu%20restaurante." class="btn-primary" target="_blank" rel="noopener">Pedir demonstração gratuita pelo WhatsApp</a>
+</section>
+
+<!-- RODAPE -->
+<footer aria-label="Rodapé">
+  <div class="container">
+    <div class="foot-brand">R<span>*</span>S <span style="font-family:var(--font-ui);font-size:13px;color:var(--muted);">Rinear Systems</span></div>
+    <div class="foot-serv">Sites, sistemas, cardápios digitais e automações para restaurantes e pequenos negócios.</div>
+    <div class="foot-contato">
+      <div><strong>WhatsApp:</strong> <a href="https://wa.me/5534991297581?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Rinear%20Systems." target="_blank" rel="noopener">(34) 99129-7581</a></div>
+      <div><strong>Instagram:</strong> <a href="https://instagram.com/rinearsystems" target="_blank" rel="noopener">@rinearsystems</a></div>
+      <div><strong>E-mail:</strong> <a href="mailto:contato@rinearsystems.com">contato@rinearsystems.com</a></div>
+    </div>
+    <div class="foot-legal">
+      Rinear Systems © 2026 — Ideias em sistemas reais. Os nomes, fotos e preços exibidos na seção de exemplos são fictícios e servem apenas para demonstração do serviço.
+    </div>
+  </div>
+</footer>
+
+<!-- JSON-LD -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://rinear-systems-site.glear-games-mk.workers.dev/#organization",
+      "name": "Rinear Systems",
+      "url": "https://rinear-systems-site.glear-games-mk.workers.dev/",
+      "logo": "https://rinear-systems-site.glear-games-mk.workers.dev/logo.png",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+5534991297581",
+        "contactType": "customer service",
+        "availableLanguage": "Portuguese"
+      },
+      "sameAs": ["https://instagram.com/rinearsystems"],
+      "address": {"@type": "PostalAddress", "addressCountry": "BR"}
+    },
+    {
+      "@type": "Service",
+      "@id": "https://rinear-systems-site.glear-games-mk.workers.dev/#service",
+      "serviceType": "Cardápio digital para restaurante",
+      "provider": {"@id": "https://rinear-systems-site.glear-games-mk.workers.dev/#organization"},
+      "areaServed": {"@type": "Country", "name": "Brazil"},
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Cardápios digitais",
+        "itemOffered": [
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Cardápio digital com QR Code"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Pedidos pelo WhatsApp"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Página profissional do restaurante"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Otimização do Perfil da Empresa no Google"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Mensagem automática no WhatsApp Business"}}
+        ]
+      }
+    }
+  ]
+}
+</script>
+
+<script>
+  /* Menu mobile */
+  const menuBtn = document.getElementById('menuBtn');
+  const closeMenu = document.getElementById('closeMenu');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const overlay = document.getElementById('overlay');
+
+  function openMenu(){ mobileMenu.classList.add('open'); overlay.classList.add('visible'); document.body.style.overflow='hidden'; }
+  function closeMenuFn(){ mobileMenu.classList.remove('open'); overlay.classList.remove('visible'); document.body.style.overflow=''; }
+
+  menuBtn.addEventListener('click', openMenu);
+  closeMenu.addEventListener('click', closeMenuFn);
+  overlay.addEventListener('click', closeMenuFn);
+
+  /* FAQ toggle */
+  function toggleFaq(el){
+    const item = el.parentElement;
+    const answer = item.querySelector('.faq-a');
+    const chev = el.querySelector('.chev');
+    const isOpen = answer.classList.contains('open');
+    document.querySelectorAll('.faq-a.open').forEach(a=>{a.classList.remove('open'); a.style.maxHeight='0'; a.previousElementSibling.querySelector('.chev').style.transform='rotate(45deg)'});
+    if(!isOpen){ answer.classList.add('open'); answer.style.maxHeight='400px'; chev.style.transform='rotate(-135deg)'; }
+  }
+
+  /* WhatsApp helpers */
+  function abrirWhatsAppPedido(){
+    const msg = 'Olá! Vi o cardápio digital da Rinear Systems e gostaria de fazer um pedido. Por favor, me envie o menu e as opções de pagamento.';
+    location.href = 'https://wa.me/5534991297581?text=' + encodeURIComponent(msg);
+  }
+  function abrirWhatsApp(texto){
+    location.href = 'https://wa.me/5534991297581?text=' + encodeURIComponent(texto);
+  }
+
+  /* Reveal on scroll simples */
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){ entry.target.style.opacity='1'; entry.target.style.transform='translateY(0)'; }
+    });
+  },{threshold:0.12});
+  document.querySelectorAll('.card,.sol-item,.etapa,.demo-card,.prova-item,.placeholder').forEach(el=>{
+    el.style.opacity='0'; el.style.transform='translateY(20px)'; el.style.transition='opacity .6s ease,transform .6s ease';
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>

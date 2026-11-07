@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cardápio Digital | Rinear Systems</title>
+<meta name="description" content="Cardápio digital — faça seu pedido pelo WhatsApp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:italic@400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#071d22;--bg-sec:#0a272d;--ink:#eef3f0;--muted:#94a7a7;
+    --accent:#ff5ba8;--accent2:#8b5cff;--gold:#e6c866;--border:rgba(255,255,255,.13);
+    --radius:12px;--font-display:'DM Serif Display',serif;--font-ui:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--font-ui);font-size:16px;line-height:1.6}
+  a{color:inherit;text-decoration:none}img{max-width:100%;display:block}
+  .container{max-width:480px;margin:0 auto;padding:0 14px}
+  header{padding:14px 0;border-bottom:1px solid var(--border);margin-bottom:16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .logo{font-family:var(--font-display);font-size:22px;font-weight:400;letter-spacing:-.03em}
+  .logo span{color:var(--accent);font-style:italic}
+  .resto-nome{font-size:20px;font-family:var(--font-display);margin:0 0 2px}
+  .resto-info{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .btn-wa{
+    display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:#fff;font-size:14px;font-weight:700;padding:10px 16px;border-radius:10px;border:none;cursor:pointer;
+    box-shadow:0 8px 20px rgba(255,91,168,.35);margin-left:auto
+  }
+  .busca{margin:0 0 18px;position:relative}
+  .busca input{width:100%;background:var(--bg-sec);border:1px solid var(--border);color:var(--ink);padding:10px 40px 10px 12px;border-radius:10px;font-size:14px}
+  .busca::before{content:'🔍';position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+  .categorias{display:flex;gap:8px;overflow-x:auto;margin-bottom:16px;padding-bottom:8px;scrollbar-width:none}
+  .categorias::-webkit-scrollbar{display:none}
+  .cat{flex:0 0 auto;background:var(--bg-sec);border:1px solid var(--border);color:var(--ink);padding:8px 14px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+  .cat.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent}
+  .produtos{display:grid;gap:12px}
+  .prod{
+    background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--radius);padding:12px;display:flex;gap:10px;align-items:flex-start
+  }
+  .prod img{width:72px;height:72px;object-fit:cover;border-radius:8px;flex:0 0 auto}
+  .prod .info{flex:1}
+  .prod .nome{font-weight:700;font-size:15px;display:flex;justify-content:space-between;align-items:center}
+  .prod .preco{color:var(--gold);font-weight:700}
+  .prod .desc{font-size:12.5px;color:var(--muted);margin-top:2px}
+  .prod .add{
+    margin-top:8px;background:transparent;border:1px solid var(--accent);color:var(--accent);padding:6px 10px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer
+  }
+  .prod .add.added{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .carrinho{position:fixed;bottom:0;left:0;right:0;background:var(--bg-sec);border-top:1px solid var(--border);padding:14px;z-index:50}
+  .carrinho.escondido{display:none}
+  .carrinho .head{display:flex;justify-content:space-between;margin-bottom:10px}
+  .carrinho .total{font-size:16px;font-weight:700}
+  .carrinho .total span{color:var(--gold)}
+  .item-carrinho{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+  .item-carrinho:last-child{border-bottom:none}
+  .item-carrinho .qtd{display:flex;align-items:center;gap:6px}
+  .item-carrinho button{background:var(--border);border:none;color:var(--ink);width:24px;height:24px;border-radius:6px;cursor:pointer;font-size:16px}
+  .acao-final{
+    margin-top:10px;display:flex;flex-direction:column;gap:8px
+  }
+  .btn-enviar{
+    background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;padding:12px;border-radius:10px;font-weight:700;font-size:15px;cursor:pointer;
+    box-shadow:0 8px 20px rgba(255,91,168,.35)
+  }
+  .modo{display:flex;gap:8px;margin-bottom:10px}
+  .modo button{flex:1;background:transparent;border:1px solid var(--border);color:var(--ink);padding:8px;border-radius:8px;font-size:13px;cursor:pointer}
+  .modo button.ativo{background:rgba(255,91,168,.15);color:var(--accent);border-color:rgba(255,91,168,.4)}
+  .obs{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--ink);padding:8px 10px;border-radius:8px;font-size:13px;font-family:inherit;margin-bottom:8px}
+  .endereco{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--ink);padding:8px 10px;border-radius:8px;font-size:13px;font-family:inherit}
+  .vazio{text-align:center;color:var(--muted);padding:40px 20px}
+  .rodape-pub{text-align:center;padding:26px 14px;color:var(--muted);font-size:11.5px;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">R<span>*</span>S</div>
+    <div class="resto-nome" id="nomeRestaurante">Seu restaurante</div>
+    <div class="resto-info" id="infoRestaurante">WhatsApp • Endereço • Horário</div>
+    <button class="btn-wa" id="btnWhatsAppTopo" style="display:none">Falar no WhatsApp</button>
+  </header>
+
+  <div class="busca"><input type="text" id="busca" placeholder="Buscar pratos..."></div>
+
+  <div class="categorias" id="categorias"></div>
+
+  <div class="produtos" id="produtos">
+    <div class="vazio">Carregando cardápio...</div>
+  </div>
+
+  <!-- Carrinho -->
+  <div class="carrinho escondido" id="carrinho">
+    <div class="head"><strong>Seu pedido</strong><span class="total">Total: <span id="totalCarrinho">R$ 0,00</span></span></div>
+    <div id="itensCarrinho"></div>
+    <div class="modo">
+      <button class="modo-btn ativo" data-modo="retirada">Retirada</button>
+      <button class="modo-btn" data-modo="entrega">Entrega</button>
+      <button class="modo-btn" data-modo="local">Consumo local</button>
+    </div>
+    <input type="text" class="endereco escondido" id="inputEndereco" placeholder="Endereço de entrega">
+    <textarea class="obs" id="inputObs" placeholder="Observações (ex: sem cebola, ponto da carne...)"></textarea>
+    <button class="btn-enviar" id="btnEnviar">Enviar pedido pelo WhatsApp</button>
+  </div>
+
+  <div class="rodape-pub">
+    Cardápio digital criado pela Rinear Systems. Exemplos demonstrativos — não é um restaurante real.
+  </div>
+</div>
+
+<script>
+  /* Estado do carrinho */
+  let carrinho = [];
+  let modo = 'retirada';
+  let restaurante = {};
+  let produtos = [];
+
+  /* Ler parâmetro ?id= */
+  const params = new URLSearchParams(location.search);
+  const restId = params.get('id');
+
+  /* Dados vêm do localStorage compartilhado com o painel */
+  function carregarDados(){
+    const raw = localStorage.getItem('rinear_painel_v1');
+    if(!raw){ document.getElementById('produtos').innerHTML='<div class="vazio">Cardápio não encontrado.</div>'; return; }
+    const state = JSON.parse(raw);
+    restaurante = state.restaurantes.find(r=>r.id==restId) || {};
+    // produtos compartilhados ou filtrados por restaurante
+    const todosProd = state.produtos||[];
+    produtos = restId ? todosProd.filter(p=>p.restauranteId==parseInt(restId)) : todosProd;
+    render();
+  }
+
+  function render(){
+    // Header
+    document.getElementById('nomeRestaurante').textContent = restaurante.nome||'Cardápio Digital';
+    const infoParts = [restaurante.whatsapp?`📞 ${restaurante.whatsapp}`:'', restaurante.cidade?`📍 ${restaurante.cidade}${restaurante.bairro?' — '+restaurante.bairro:''}`:'', restaurante.horario?`🕐 ${restaurante.horario}`:''].filter(Boolean);
+    document.getElementById('infoRestaurante').textContent = infoParts.join('  •  ');
+    const btnTopo = document.getElementById('btnWhatsAppTopo');
+    if(restaurante.whatsapp){
+      btnTopo.style.display='inline-flex';
+      btnTopo.onclick=()=>location.href='https://wa.me/'+restaurante.whatsapp+'?text='+encodeURIComponent('Olá! Gostaria de fazer um pedido pelo cardápio digital.');
+    }
+
+    // Categorias
+    const cats = [...new Set(produtos.map(p=>p.categoria||'Sem categoria'))];
+    const catEl = document.getElementById('categorias');
+    catEl.innerHTML = `<div class="cat active" data-cat="todos">Todos</div>` + cats.map(c=>`<div class="cat" data-cat="${c}">${c}</div>`).join('');
+    catEl.querySelectorAll('.cat').forEach(el=>{
+      el.onclick=()=>{
+        catEl.querySelectorAll('.cat').forEach(x=>x.classList.remove('active'));
+        el.classList.add('active');
+        renderProdutos(el.dataset.cat);
+      };
+    });
+
+    renderProdutos('todos');
+    renderCarrinho();
+    busca();
+  }
+
+  let catAtual='todos';
+  function renderProdutos(cat){
+    catAtual=cat;
+    const lista = produtos.filter(p=>cat==='todos' || p.categoria===cat);
+    const el = document.getElementById('produtos');
+    if(!lista.length){ el.innerHTML='<div class="vazio">Nenhum item nesta categoria.</div>'; return; }
+    el.innerHTML = lista.map(p=>{
+      const noCarrinho = carrinho.find(c=>c.id===p.id);
+      return `
+      <div class="prod">
+        <img src="${p.foto||'https://via.placeholder.com/72x72?text=Sem+foto'}" alt="${p.nome}">
+        <div class="info">
+          <div class="nome"><span>${p.nome}</span><span class="preco">R$ ${parseFloat(p.preco||0).toFixed(2)}</span></div>
+          <div class="desc">${p.descricao||''}</div>
+          <button class="add ${noCarrinho?'added':''}" onclick="toggleItem('${p.id}','${p.nome}',${parseFloat(p.preco||0)})">${noCarrinho?'Adicionado':'Adicionar'}</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function toggleItem(id,nome,preco){
+    const idx = carrinho.findIndex(c=>c.id===id);
+    if(idx>=0){
+      if(carrinho[idx].qtd>1) carrinho[idx].qtd--;
+      else carrinho.splice(idx,1);
+    } else {
+      carrinho.push({id,nome,preco,qtd:1});
+    }
+    renderProdutos(catAtual);
+    renderCarrinho();
+  }
+
+  function busca(){
+    document.getElementById('busca').oninput=(e)=>{
+      const termo = e.target.value.toLowerCase();
+      const filtrados = produtos.filter(p=>(p.nome||'').toLowerCase().includes(termo) || (p.descricao||'').toLowerCase().includes(termo));
+      const el=document.getElementById('produtos');
+      if(!filtrados.length){ el.innerHTML='<div class="vazio">Nenhum item encontrado.</div>'; return; }
+      el.innerHTML = filtrados.map(p=>{
+        const noCarrinho = carrinho.find(c=>c.id===p.id);
+        return `
+        <div class="prod">
+          <img src="${p.foto||'https://via.placeholder.com/72x72?text=Sem+foto'}" alt="${p.nome}">
+          <div class="info">
+            <div class="nome"><span>${p.nome}</span><span class="preco">R$ ${parseFloat(p.preco||0).toFixed(2)}</span></div>
+            <div class="desc">${p.descricao||''}</div>
+            <button class="add ${noCarrinho?'added':''}" onclick="toggleItem('${p.id}','${p.nome}',${parseFloat(p.preco||0)})">${noCarrinho?'Adicionado':'Adicionar'}</button>
+          </div>
+        </div>`;
+      }).join('');
+    };
+  }
+
+  document.querySelectorAll('.modo-btn').forEach(b=>{
+    b.onclick=()=>{
+      document.querySelectorAll('.modo-btn').forEach(x=>x.classList.remove('ativo'));
+      b.classList.add('ativo');
+      modo = b.dataset.modo;
+      document.getElementById('inputEndereco').classList.toggle('escondido', modo!=='entrega');
+      renderCarrinho();
+    };
+  });
+
+  function renderCarrinho(){
+    const carEl = document.getElementById('carrinho');
+    const itensEl = document.getElementById('itensCarrinho');
+    const totalEl = document.getElementById('totalCarrinho');
+    if(!carrinho.length){ carEl.classList.add('escondido'); return; }
+    carEl.classList.remove('escondido');
+    totalEl.textContent = 'R$ '+carrinho.reduce((s,c)=>s+c.preco*c.qtd,0).toFixed(2);
+    itensEl.innerHTML = carrinho.map(c=>
+      `<div class="item-carrinho">
+        <div><strong>${c.nome}</div>
+        <div class="qtd">
+          <button onclick="alterarQtd('${c.id}',-1)">−</button>
+          <span>${c.qtd}</span>
+          <button onclick="alterarQtd('${c.id}',1)">+</button>
+        </div>
+        <span>R$ ${(c.preco*c.qtd).toFixed(2)}</span>
+      </div>`).join('');
+  }
+  window.alterarQtd=(id,delta)=>{
+    const c=carrinho.find(x=>x.id===id);
+    if(!c) return;
+    c.qtd+=delta;
+    if(c.qtd<=0) carrinho=carrinho.filter(x=>x.id!==id);
+    renderCarrinho();
+    renderProdutos(catAtual);
+  };
+
+  // Enviar WhatsApp
+  document.getElementById('btnEnviar').onclick=()=>{
+    if(!restaurante.whatsapp){ alert('WhatsApp do restaurante não configurado.'); return; }
+    const obs = document.getElementById('inputObs').value;
+    const end = document.getElementById('inputEndereco').value;
+    let msg = `*Novo pedido — ${restaurante.nome}*%0A%0A`;
+    msg += carrinho.map(c=>`• ${c.nome} (R$ ${c.preco.toFixed(2)}) x${c.qtd}`).join('%0A');
+    msg += `%0A*Total: R$ ${carrinho.reduce((s,c)=>s+c.preco*c.qtd,0).toFixed(2)}*`;
+    msg += `%0A*Forma: ${modo.charAt(0).toUpperCase()+modo.slice(1)}*`;
+    if(end) msg += `%0A*Endereço: ${end}*`;
+    if(obs) msg += `%0A*Obs: ${obs}*`;
+    msg += `%0A%0AEnviado via cardápio digital da Rinear Systems.`;
+    location.href = 'https://wa.me/'+restaurante.whatsapp+'?text='+msg;
+  };
+
+  carregarDados();
+</script>
+</body>
+</html>
