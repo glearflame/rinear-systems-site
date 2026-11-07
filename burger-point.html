@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cardápio Digital — Burger Point | Hamburgueria</title>
+<meta name="description" content="Cardápio digital da Burger Point — Hamburgueria artesanal. Faça seu pedido pelo WhatsApp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:italic@400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ============================================
+     CARDÁPIO DIGITAL — TEMA BASE (reutilizável)
+     Para mudar de tema (pizzaria, marmitaria, etc.),
+     altere apenas as variáveis CSS abaixo.
+     ============================================ */
+  :root{
+    --bg:#0b1214;
+    --bg-sec:#131c1f;
+    --ink:#f4f6f7;
+    --muted:#8a979c;
+    --accent:#ff4d6d;      /* cor primária (vermelho apetitoso) */
+    --accent2:#d4344e;     /* cor secundária */
+    --gold:#f4b942;
+    --border:rgba(255,255,255,.10);
+    --radius:14px;
+    --shadow:0 14px 40px rgba(0,0,0,.45);
+    --font-display:'DM Serif Display',serif;
+    --font-ui:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-ui);
+    line-height:1.6;
+    font-size:16px;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}img{max-width:100%;display:block}
+  .container{max-width:480px;margin:0 auto;padding:0 16px}
+  /* ---------- Header ---------- */
+  header{
+    padding:16px 0 10px;border-bottom:1px solid var(--border);display:flex;
+    align-items:center;gap:10px;flex-wrap:wrap;position:sticky;top:0;
+    background:rgba(11,18,20,.9);backdrop-filter:blur(10px);z-index:40;
+  }
+  .logo{font-family:var(--font-display);font-size:24px;font-weight:400;letter-spacing:-.03em;color:var(--ink)}
+  .logo span{color:var(--accent);font-style:italic}
+  .resto-nome{font-size:19px;font-family:var(--font-display);margin:0 0 2px}
+  .resto-info{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .btn-wa-top{
+    display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#25d366,#128c7e);
+    color:#fff;font-size:13.5px;font-weight:700;padding:8px 14px;border-radius:10px;border:none;
+    cursor:pointer;box-shadow:0 6px 16px rgba(37,211,102,.35);margin-left:auto;font-size:13px
+  }
+  /* ---------- Busca ---------- */
+  .busca{margin:14px 0 18px;position:relative}
+  .busca input{width:100%;background:var(--bg-sec);border:1px solid var(--border);color:var(--ink);
+    padding:10px 40px 10px 14px;border-radius:10px;font-size:14px}
+  .busca::before{content:'🔍';position:absolute;right:10px;top:50%;transform:translateY(-50%);
+    color:var(--muted);pointer-events:none}
+  /* ---------- Categorias ---------- */
+  .categorias{display:flex;gap:8px;overflow-x:auto;margin-bottom:16px;padding-bottom:6px;scrollbar-width:none}
+  .categorias::-webkit-scrollbar{display:none}
+  .cat{flex:0 0 auto;background:var(--bg-sec);border:1px solid var(--border);color:var(--ink);
+    padding:8px 14px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+  .cat.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent}
+  /* ---------- Produtos ---------- */
+  .produtos{display:grid;gap:12px}
+  .prod{
+    background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--radius);
+    padding:12px;display:flex;gap:10px;align-items:flex-start;position:relative
+  }
+  .prod img{width:72px;height:72px;object-fit:cover;border-radius:8px;flex:0 0 auto}
+  .prod .info{flex:1}
+  .prod .nome{font-weight:700;font-size:15px;display:flex;justify-content:space-between;align-items:center}
+  .prod .preco{color:var(--gold);font-weight:700}
+  .prod .desc{font-size:12.5px;color:var(--muted);margin-top:2px}
+  .prod .add{
+    margin-top:8px;background:transparent;border:1px solid var(--accent);color:var(--accent);
+    padding:6px 10px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s
+  }
+  .prod .add.added{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .prod .add:active{transform:scale(.96)}
+  /* ---------- Carrinho flutuante ---------- */
+  .carrinho{position:fixed;bottom:0;left:0;right:0;background:var(--bg-sec);border-top:1px solid var(--border);
+    padding:14px;z-index:50;transform:translateY(100%);transition:transform .35s ease}
+  .carrinho.ativo{transform:translateY(0)}
+  .carrinho .head{display:flex;justify-content:space-between;margin-bottom:10px}
+  .carrinho .total{font-size:16px;font-weight:700}
+  .carrinho .total span{color:var(--gold)}
+  .item-carrinho{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+  .item-carrinho:last-child{border-bottom:none}
+  .item-carrinho .qtd{display:flex;align-items:center;gap:6px}
+  .item-carrinho button{background:var(--border);border:none;color:var(--ink);width:24px;height:24px;
+    border-radius:6px;cursor:pointer;font-size:16px;line-height:1}
+  .item-carrinho button:active{transform:scale(.94)}
+  /* ---------- Forma / obs ---------- */
+  .acao-final{margin-top:12px;display:flex;flex-direction:column;gap:8px}
+  .modo{display:flex;gap:8px}
+  .modo button{flex:1;background:transparent;border:1px solid var(--border);color:var(--ink);
+    padding:8px;border-radius:8px;font-size:13px;cursor:pointer;transition:all .2s}
+  .modo button.ativo{background:rgba(255,77,109,.15);color:var(--accent);border-color:rgba(255,77,109,.4)}
+  .obs{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--ink);padding:8px 10px;
+    border-radius:8px;font-size:13px;font-family:inherit;margin-bottom:8px}
+  .endereco{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--ink);padding:8px 10px;
+    border-radius:8px;font-size:13px;font-family:inherit}
+  .btn-enviar{
+    width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;
+    padding:12px;border-radius:10px;font-weight:700;font-size:15px;cursor:pointer;
+    box-shadow:0 8px 20px rgba(255,77,109,.4);transition:filter .2s
+  }
+  .btn-enviar:active{transform:scale(.98)}
+  .vazio{text-align:center;color:var(--muted);padding:40px 20px}
+  .rodape-pub{text-align:center;padding:26px 14px;color:var(--muted);font-size:11.5px;border-top:1px solid var(--border)}
+  /* ---------- WhatsApp fixo mobile ---------- */
+  .wa-fixo{
+    position:fixed;bottom:20px;right:20px;z-index:60;
+    width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#25d366,#128c7e);
+    display:flex;align-items:center;justify-content:center;color:#fff;font-size:30px;cursor:pointer;
+    box-shadow:0 8px 24px rgba(37,211,102,.35);border:3px solid rgba(255,255,255,.2);transition:transform .2s
+  }
+  .wa-fixo:active{transform:scale(.94)}
+  /* ---------- QR Code fictício ---------- */
+  .qrcode-box{text-align:center;margin:18px 0}
+  .qrcode-box img{width:150px;height:150px;border-radius:12px;border:2px solid var(--border)}
+  .qrcode-box p{font-size:12px;color:var(--muted);margin-top:6px}
+  /* ---------- Responsive ---------- */
+  @media (max-width:480px){
+    .cta-final{padding:32px 20px}
+    .carrinho{padding:14px 12px}
+  }
+  /* ---------- Estados ---------- */
+  .hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Header -->
+  <header>
+    <div class="logo">B<span>*</span>P</div>
+    <div class="resto-nome" id="nomeRestaurante">Burger Point</div>
+    <div class="resto-info" id="infoRestaurante">
+      🕐 11:00–23:00 &nbsp;•&nbsp; 📍 Rua das Flores, 123 — Centro &nbsp;•&nbsp; 📱 (34) 99999-9999
+    </div>
+    <button class="btn-wa-top" id="btnWhatsAppTopo" style="display:none">Falar no WhatsApp</button>
+  </header>
+
+  <!-- Busca -->
+  <div class="busca"><input type="text" id="busca" placeholder="Buscar hambúrgueres..."></div>
+
+  <!-- Categorias -->
+  <div class="categorias" id="categorias"></div>
+
+  <!-- Produtos -->
+  <div class="produtos" id="produtos">
+    <div class="vazio">Carregando cardápio...</div>
+  </div>
+
+  <!-- QR Code fictício -->
+  <div class="qrcode-box">
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fburgerpoint.example.com%2Fcardapio"
+         alt="QR Code Burger Point">
+    <p>Escaneie para acessar o cardápio</p>
+  </div>
+</div>
+
+<!-- Carrinho flutuante -->
+<div class="carrinho escondido" id="carrinho">
+  <div class="head"><strong>Seu pedido</strong><span class="total">Total: <span id="totalCarrinho">R$ 0,00</span></span></div>
+  <div id="itensCarrinho"></div>
+  <div class="modo">
+    <button class="modo-btn ativo" data-modo="retirada">Retirada</button>
+    <button class="modo-btn" data-modo="entrega">Entrega</button>
+    <button class="modo-btn" data-modo="local">Consumo local</button>
+  </div>
+  <input type="text" class="endereco escondido" id="inputEndereco" placeholder="Endereço de entrega">
+  <textarea class="obs" id="inputObs" placeholder="Observações (ex: sem cebola, ponto da carne...)"></textarea>
+  <button class="btn-enviar" id="btnEnviar">Enviar pedido pelo WhatsApp</button>
+</div>
+
+<!-- Rodapé -->
+<div class="rodape-pub">
+  Cardápio digital demonstrativo — Burger Point (fictício). Criado para demonstração do serviço.
+</div>
+
+<!-- WhatsApp fixo -->
+<a class="wa-fixo" href="#" id="waFixo" aria-label="Falar no WhatsApp">💬</a>
+
+<script>
+  /* ============================================
+     ESTADO E DADOS (mock — substituir por dados reais)
+     ============================================ */
+  let carrinho = [];
+  let modo = 'retirada';
+  let restaurante = {};
+  let produtos = [];
+  let catAtual = 'todos';
+
+  const RESTAURANTE_PADRAO = {
+    nome:'Burger Point',
+    whatsapp:'553499999999',
+    instagram:'@burgerpoint',
+    cidade:'Uberlândia',
+    bairro:'Centro',
+    horario:'11:00 às 23:00',
+    endereco:'Rua das Flores, 123 — Centro'
+  };
+
+  const PRODUTOS_MOCK = [
+    {id:'p1',nome:'Burger Point Clássico',categoria:'Hambúrgueres',descricao:'Pão brioche, carne 150g, queijo cheddar, alface, tomate e maionese da casa',preco:24.90,foto:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=400&fit=crop'},
+    {id:'p2',nome:'Bacon Duplo',categoria:'Hambúrgueres',descricao:'Duas carnes 150g, bacon crocante, queijo cheddar, cebola caramelizada e BBQ',preco:34.90,foto:'https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=400&h=400&fit=crop'},
+    {id:'p3',nome:'Frango Crispy',categoria:'Hambúrgueres',descricao:'Filé de frango empanado, alface, tomate e maionese temperada',preco:26.90,foto:'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&h=400&fit=crop'},
+    {id:'p4',nome:'Combo Clássico',categoria:'Combos',descricao:'Hambúrguer clássico + batata média + refrigerante',preco:39.90,foto:'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400&h=400&fit=crop'},
+    {id:'p5',nome:'Combo Família',categoria:'Combos',descoria:'2 hambúrgueres duplos + 2 batatas grandes + 2 refrigerantes',preco:74.90,foto:'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&h=400&fit=crop'},
+    {id:'p6',nome:'Batata Frita',categoria:'Porções',descricao:'Batata palito grossa com sal e salsa',preco:12.90,foto:'https://images.unsplash.com/photo-1576212608707-631e7c757c2f?w=400&h=400&fit=crop'},
+    {id:'p7',nome:'Batata Cheddar',categoria:'Porções',descricao:'Batata frita com molho cheddar e bacon',preco:18.90,foto:'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=400&fit=crop'},
+    {id:'p8',nome:'Refrigerante Lata',categoria:'Bebidas',descricao:'350ml',preco:5.00,foto:'https://images.unsplash.com/photo-1559733830-49259714a0e6?w=400&h=400&fit=crop'},
+    {id:'p9',nome:'Suco Natural',categoria:'Bebidas',descricao:'Laranja ou limão, 300ml',preco:7.90,foto:'https://images.unsplash.com/photo-1600071589161-500e3c0c574b?w=400&h=400&fit=crop'},
+    {id:'p10',nome:'Milkshake Baunilha',categoria:'Sobremesas',descricao:'Milkshake cremoso de baunilha com calda',preco:11.90,foto:'https://images.unsplash.com/photo-1563232970-d7937e0b468b?w=400&h=400&fit=crop'},
+    {id:'p11',nome:'Brownie de Chocolate',categoria:'Sobremesas',descricao:'Brownie quente com sorvete de creme',preco:14.90,foto:'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400&h=400&fit=crop'}
+  ];
+
+  /* ============================================
+     INICIALIZAÇÃO
+     ============================================ */
+  function init(){
+    restaurante = RESTAURANTE_PADRAO;
+    produtos = PRODUTOS_MOCK;
+
+    // Header
+    document.getElementById('nomeRestaurante').textContent = restaurante.nome;
+    const infoParts = [
+      `🕐 ${restaurante.horario}`,
+      `📍 ${restaurante.endereco}`,
+      `📱 ${restaurante.whatsapp}`
+    ];
+    document.getElementById('infoRestaurante').textContent = infoParts.join('  •  ');
+
+    const btnTopo = document.getElementById('btnWhatsAppTopo');
+    btnTopo.style.display='inline-flex';
+    btnTopo.onclick = () => {
+      location.href = 'https://wa.me/' + restaurante.whatsapp + '?text=' + encodeURIComponent(
+        'Olá! Gostaria de fazer um pedido pelo cardápio digital do Burger Point.'
+      );
+    };
+    // WhatsApp fixo
+    document.getElementById('waFixo').href = 'https://wa.me/' + restaurante.whatsapp + '?text=' + encodeURIComponent(
+      'Olá! Vi o cardápio digital do Burger Point e gostaria de fazer um pedido.'
+    );
+
+    // Categorias
+    const cats = ['todos', ...new Set(produtos.map(p => p.categoria))];
+    const catEl = document.getElementById('categorias');
+    catEl.innerHTML = cats.map(c => `
+      <div class="cat ${c === catAtual ? 'active' : ''}" data-cat="${c}">${c}</div>
+    `).join('');
+    catEl.querySelectorAll('.cat').forEach(el => {
+      el.onclick = () => {
+        catEl.querySelectorAll('.cat').forEach(x => x.classList.remove('active'));
+        el.classList.add('active');
+        catAtual = el.dataset.cat;
+        renderProdutos(catAtual);
+      };
+    });
+
+    renderProdutos('todos');
+    renderCarrinho();
+    busca();
+  }
+
+  /* ============================================
+     RENDER PRODUTOS
+     ============================================ */
+  function renderProdutos(cat){
+    catAtual = cat;
+    const lista = produtos.filter(p => cat === 'todos' || p.categoria === cat);
+    const el = document.getElementById('produtos');
+    if(!lista.length){ el.innerHTML = '<div class="vazio">Nenhum item nesta categoria.</div>'; return; }
+    el.innerHTML = lista.map(p => {
+      const noCarrinho = carrinho.find(c => c.id === p.id);
+      return `
+      <div class="prod">
+        <img src="${p.foto}" alt="${p.nome}">
+        <div class="info">
+          <div class="nome"><span>${p.nome}</span><span class="preco">R$ ${parseFloat(p.preco).toFixed(2)}</span></div>
+          <div class="desc">${p.descricao}</div>
+          <button class="add ${noCarrinho ? 'added' : ''}" onclick="toggleItem('${p.id}','${p.nome}',${parseFloat(p.preco)})">
+            ${noCarrinho ? 'Adicionado' : 'Adicionar'}
+          </button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  /* ============================================
+     CARRINHO
+     ============================================ */
+  function toggleItem(id, nome, preco){
+    const idx = carrinho.findIndex(c => c.id === id);
+    if(idx >= 0){
+      if(carrinho[idx].qtd > 1) carrinho[idx].qtd--;
+      else carrinho.splice(idx, 1);
+    } else {
+      carrinho.push({id, nome, preco, qtd: 1});
+    }
+    renderProdutos(catAtual);
+    renderCarrinho();
+  }
+
+  window.alterarQtd = function(id, delta){
+    const c = carrinho.find(x => x.id === id);
+    if(!c) return;
+    c.qtd += delta;
+    if(c.qtd <= 0) carrinho = carrinho.filter(x => x.id !== id);
+    renderCarrinho();
+    renderProdutos(catAtual);
+  };
+
+  function renderCarrinho(){
+    const carEl = document.getElementById('carrinho');
+    const itensEl = document.getElementById('itensCarrinho');
+    const totalEl = document.getElementById('totalCarrinho');
+    if(!carrinho.length){ carEl.classList.remove('ativo'); return; }
+    carEl.classList.add('ativo');
+    const total = carrinho.reduce((s, c) => s + c.preco * c.qtd, 0);
+    totalEl.textContent = 'R$ ' + total.toFixed(2);
+    itensEl.innerHTML = carrinho.map(c =>
+      `<div class="item-carrinho">
+        <div><strong>${c.nome}</strong></div>
+        <div class="qtd">
+          <button onclick="alterarQtd('${c.id}',-1)">−</button>
+          <span>${c.qtd}</span>
+          <button onclick="alterarQtd('${c.id}',1)">+</button>
+        </div>
+        <span>R$ ${(c.preco * c.qtd).toFixed(2)}</span>
+      </div>`).join('');
+  }
+
+  /* ---------- Modo de recebimento ---------- */
+  document.querySelectorAll('.modo-btn').forEach(b => {
+    b.onclick = () => {
+      document.querySelectorAll('.modo-btn').forEach(x => x.classList.remove('ativo'));
+      b.classList.add('ativo');
+      modo = b.dataset.modo;
+      document.getElementById('inputEndereco').classList.toggle('escondido', modo !== 'entrega');
+    };
+  });
+
+  /* ---------- Busca ---------- */
+  function busca(){
+    document.getElementById('busca').oninput = (e) => {
+      const termo = e.target.value.toLowerCase();
+      const filtrados = produtos.filter(p =>
+        (p.nome || '').toLowerCase().includes(termo) ||
+        (p.descricao || '').toLowerCase().includes(termo) ||
+        (p.categoria || '').toLowerCase().includes(termo)
+      );
+      const el = document.getElementById('produtos');
+      if(!filtrados.length){ el.innerHTML = '<div class="vazio">Nenhum item encontrado.</div>'; return; }
+      el.innerHTML = filtrados.map(p => {
+        const noCarrinho = carrinho.find(c => c.id === p.id);
+        return `
+        <div class="prod">
+          <img src="${p.foto}" alt="${p.nome}">
+          <div class="info">
+            <div class="nome"><span>${p.nome}</span><span class="preco">R$ ${parseFloat(p.preco).toFixed(2)}</span></div>
+            <div class="desc">${p.descricao}</div>
+            <button class="add ${noCarrinho ? 'added' : ''}" onclick="toggleItem('${p.id}','${p.nome}',${parseFloat(p.preco)})">
+              ${noCarrinho ? 'Adicionado' : 'Adicionar'}
+            </button>
+          </div>
+        </div>`;
+      }).join('');
+    };
+  }
+
+  /* ============================================
+     ENVIAR WHATSAPP
+     ============================================ */
+  document.getElementById('btnEnviar').onclick = () => {
+    if(!restaurante.whatsapp){ alert('WhatsApp não configurado.'); return; }
+    if(carrinho.length === 0){ alert('Selecione pelo menos um item.'); return; }
+
+    const obs = document.getElementById('inputObs').value;
+    const end = document.getElementById('inputEndereco').value;
+    const modoLabel = modo.charAt(0).toUpperCase() + modo.slice(1);
+
+    let msg = `*Novo pedido — ${restaurante.nome}*%0A%0A`;
+    msg += carrinho.map(c => `• ${c.nome} (R$ ${c.preco.toFixed(2)}) x${c.qtd}`).join('%0A');
+    msg += `%0A*Total: R$ ${carrinho.reduce((s,c) => s + c.preco * c.qtd, 0).toFixed(2)}*`;
+    msg += `%0A*Forma: ${modoLabel}*`;
+    if(modo === 'entrega' && end) msg += `%0A*Endereço: ${end}*`;
+    if(obs) msg += `%0A*Obs: ${obs}*`;
+    msg += `%0A%0AEnviado via cardápio digital do Burger Point.`;
+
+    location.href = 'https://wa.me/' + restaurante.whatsapp + '?text=' + msg;
+  };
+
+  init();
+</script>
+</body>
+</html>
